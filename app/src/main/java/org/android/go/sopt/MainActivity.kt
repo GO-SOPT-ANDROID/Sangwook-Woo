@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 p = password
                 Snackbar.make(
                     viewBinding.root,
-                    "회원가입을 완료했습니다."+identity+password,
+                    "회원가입을 완료했습니다.",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
