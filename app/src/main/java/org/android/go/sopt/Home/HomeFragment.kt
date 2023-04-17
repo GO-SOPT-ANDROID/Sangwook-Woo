@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ConcatAdapter
+import org.android.go.sopt.Adapter.HeaderAdapter
 import org.android.go.sopt.Adapter.ItemAdapter
 import org.android.go.sopt.R
 import org.android.go.sopt.data.ItemData
@@ -78,9 +80,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ItemAdapter(requireContext())
-        binding.rvHome.adapter = adapter
-        adapter.setItemList(mockItemList)
+        val adapter1 = ItemAdapter(requireContext())
+        val adapter2 = HeaderAdapter(requireContext())
+        val adapter3 = ConcatAdapter(adapter2,adapter1)
+        adapter1.setItemList(mockItemList)
+        adapter2.setHeaderText("전세계 축구선수")
+        binding.rvHome.adapter = adapter3
+
     }
 
     override fun onDestroyView() {
