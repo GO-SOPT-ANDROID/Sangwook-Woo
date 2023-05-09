@@ -16,4 +16,5 @@
     <string name="special"><b>특기</b></string>
     <string name="name"><b>이름</b></string>
     <string name="complete">완료</string>
+    <string name="welcome">WELCOME !!</string>
 </resources>
