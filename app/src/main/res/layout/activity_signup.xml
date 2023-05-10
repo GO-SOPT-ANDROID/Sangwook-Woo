@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@id/et_signuppage_putpassword"
         app:layout_constraintStart_toStartOf="parent"/>
     <EditText
-        android:id="@+id/et_signuppage_putspecial"
+        android:id="@+id/et_signuppage_putskill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/putspecial"
@@ -95,8 +95,10 @@
         android:layout_height="wrap_content"
         android:text="@string/complete"
         android:textSize="20dp"
+        android:textColor="@color/white"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintTop_toBottomOf="@id/et_signuppage_putspecial"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/et_signuppage_putskill"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

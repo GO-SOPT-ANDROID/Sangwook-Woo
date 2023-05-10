@@ -1,24 +1,38 @@
 package org.android.go.sopt.signup
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.button
 import android.os.Bundle
+import android.graphics.Color;
+import android.widget.Button;
+import android.widget.EditText;
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import org.android.go.sopt.ServicePool
 import org.android.go.sopt.data.RequestSignUpDto
 import org.android.go.sopt.data.ResponseSignUpDto
 import org.android.go.sopt.databinding.ActivitySignupBinding
-import org.android.go.sopt.login.LoginActivity
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Response
 
+
 class SignupActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupBinding
+    var idInput = false
+    var pwInput = false
+    var nameInput = false
+    var skillInput = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        viewBinding.etSignuppagePutid.addTextChangedListener(EditTextCheck)
+        viewBinding.etSignuppagePutpassword.addTextChangedListener(EditTextCheck)
+        viewBinding.etSignuppagePutname.addTextChangedListener(EditTextCheck)
+        viewBinding.etSignuppagePutskill.addTextChangedListener(EditTextCheck)
 
         viewBinding.btnSignuppageComplete.setOnClickListener {
             completeSignUp()
@@ -26,13 +40,26 @@ class SignupActivity : AppCompatActivity() {
     }
     private val signUpService = ServicePool.signUpService
 
+    private val EditTextCheck = object : TextWatcher{
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+        override fun afterTextChanged(editable: Editable) {
+            val editText1HasText = !viewBinding.etSignuppagePutid.text.isNullOrEmpty()
+            val editText2HasText = !viewBinding.etSignuppagePutpassword.text.isNullOrEmpty()
+            val editText3HasText = !viewBinding.etSignuppagePutname.text.isNullOrEmpty()
+            val editText4HasText = !viewBinding.etSignuppagePutskill.text.isNullOrEmpty()
+
+            // 모든 EditText가 입력되었다면 버튼 활성화, 아니면 비활성화
+            viewBinding.btnSignuppageComplete.isEnabled= (editText1HasText && editText2HasText && editText3HasText && editText4HasText)
+        }
+    }
     private fun completeSignUp() {
         signUpService.login(
             with(viewBinding) {
                 RequestSignUpDto(
                     etSignuppagePutid.text.toString(),
                     etSignuppagePutpassword.text.toString(),
-                    etSignuppagePutspecial.text.toString(),
+                    etSignuppagePutskill.text.toString(),
                     etSignuppagePutname.text.toString()
                 )
             }
@@ -57,4 +84,6 @@ class SignupActivity : AppCompatActivity() {
             }
         })
     }
+
+
 }
