@@ -11,8 +11,6 @@ data class ResponseSignUpDto(
     val message: String,
     @SerialName("data")
     val data: SignUpData,
-    @SerialName("id")
-    val ID:String
 ) {
     @Serializable
     data class SignUpData(
