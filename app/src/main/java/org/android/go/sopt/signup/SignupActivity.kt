@@ -1,10 +1,6 @@
 package org.android.go.sopt.signup
 
-import android.R.attr.button
 import android.os.Bundle
-import android.graphics.Color;
-import android.widget.Button;
-import android.widget.EditText;
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
@@ -13,7 +9,6 @@ import org.android.go.sopt.ServicePool
 import org.android.go.sopt.data.RequestSignUpDto
 import org.android.go.sopt.data.ResponseSignUpDto
 import org.android.go.sopt.databinding.ActivitySignupBinding
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Response
 
