@@ -40,7 +40,6 @@ class SignupActivity : AppCompatActivity() {
             val editText3HasText = !viewBinding.etSignuppagePutname.text.isNullOrEmpty()
             val editText4HasText = !viewBinding.etSignuppagePutskill.text.isNullOrEmpty()
 
-            // 모든 EditText가 입력되었다면 버튼 활성화, 아니면 비활성화
             viewBinding.btnSignuppageComplete.isEnabled= (editText1HasText && editText2HasText && editText3HasText && editText4HasText)
         }
     }

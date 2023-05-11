@@ -4,17 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.MainActivity
 import org.android.go.sopt.ServicePool
 import org.android.go.sopt.data.RequestLoginDto
-import org.android.go.sopt.data.RequestSignUpDto
 import org.android.go.sopt.data.ResponseLoginDto
-import org.android.go.sopt.data.ResponseSignUpDto
 import org.android.go.sopt.databinding.ActivityLoginBinding
-import org.android.go.sopt.service.LoginService
 import org.android.go.sopt.signup.SignupActivity
 import retrofit2.Call
 import retrofit2.Response

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.android.go.sopt.data.ItemData
 import org.android.go.sopt.data.ResponseListUsersDto
 import org.android.go.sopt.databinding.LayoutItemBinding
 

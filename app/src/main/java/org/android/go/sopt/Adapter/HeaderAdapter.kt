@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.android.go.sopt.data.HeaderData
-import org.android.go.sopt.data.ItemData
 import org.android.go.sopt.databinding.LayoutHeaderBinding
 
 
