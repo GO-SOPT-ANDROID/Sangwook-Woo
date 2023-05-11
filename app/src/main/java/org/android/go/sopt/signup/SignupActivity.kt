@@ -15,10 +15,6 @@ import retrofit2.Response
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupBinding
-    var idInput = false
-    var pwInput = false
-    var nameInput = false
-    var skillInput = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySignupBinding.inflate(layoutInflater)
@@ -49,7 +45,7 @@ class SignupActivity : AppCompatActivity() {
         }
     }
     private fun completeSignUp() {
-        signUpService.login(
+        signUpService.signup(
             with(viewBinding) {
                 RequestSignUpDto(
                     etSignuppagePutid.text.toString(),
@@ -68,13 +64,11 @@ class SignupActivity : AppCompatActivity() {
 
                     if (!isFinishing) finish()
                 } else {
-                    // 실패한 응답
                     response.body()?.message?.let { Toast.makeText(getApplicationContext(), "서버통신 실패(40X)", Toast.LENGTH_SHORT).show(); }
                 }
             }
 
             override fun onFailure(call: Call<ResponseSignUpDto>, t: Throwable) {
-                // 왜 안 오노
                 t.message?.let { Toast.makeText(getApplicationContext(), "서버통신 실패(응답값 X)", Toast.LENGTH_SHORT).show(); }
             }
         })

@@ -3,67 +3,76 @@ package org.android.go.sopt.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.android.go.sopt.MainActivity
+import org.android.go.sopt.ServicePool
+import org.android.go.sopt.data.RequestLoginDto
+import org.android.go.sopt.data.RequestSignUpDto
+import org.android.go.sopt.data.ResponseLoginDto
+import org.android.go.sopt.data.ResponseSignUpDto
 import org.android.go.sopt.databinding.ActivityLoginBinding
+import org.android.go.sopt.service.LoginService
 import org.android.go.sopt.signup.SignupActivity
+import retrofit2.Call
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityLoginBinding
+
+    var name: String? = null
+    var id: String? = null
+    var skill: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var name = intent.getStringExtra("name")
-        var special = intent.getStringExtra("special")
-        var identity = intent.getStringExtra("identity")
-        var password = intent.getStringExtra("password")
-
-        resultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){ result ->
-            if(result.resultCode == RESULT_OK){
-                val data: Intent? = result.data
-                name = data?.getStringExtra("name")
-                special = data?.getStringExtra("special")
-                identity = data?.getStringExtra("identity")
-                password = data?.getStringExtra("password")
-                Snackbar.make(
-                    binding.root,
-                    "회원가입을 완료했습니다.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-
         binding.btnLoginpageSignup.setOnClickListener {
             val intent = Intent(this,SignupActivity::class.java)
-            resultLauncher.launch(intent)
+            startActivity(intent)
         }
 
+
         binding.btnLoginpageLogin.setOnClickListener {
-            if(binding.etLoginpageLogin.text.toString().equals(identity)&&binding.etLoginpagePassword.text.toString().equals(password)){
-                val mintent = Intent(this, MainActivity::class.java)
-                mintent.putExtra("name",name)
-                mintent.putExtra("special",special)
-                startActivity(mintent)
-            }else if(binding.etLoginpageLogin.text.toString().equals(identity)&&!(binding.etLoginpagePassword.text.toString().equals(password))){
-                Snackbar.make(
-                    binding.root,
-                    "비밀번호가 틀렸습니다.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }else{
-                Snackbar.make(
-                    binding.root,
-                    "아이디가 틀렸습니다.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
+            val mintent = Intent(this, MainActivity::class.java)
+            completeLogin(mintent)
         }
+    }
+    private val loginService = ServicePool.loginService
+    private fun completeLogin(mintent: Intent) {
+        loginService.login(
+            with(binding) {
+                RequestLoginDto(
+                    etLoginpageLogin.text.toString(),
+                    etLoginpagePassword.text.toString(),
+                )
+            }
+        ).enqueue(object : retrofit2.Callback<ResponseLoginDto> {
+            override fun onResponse(
+                call: Call<ResponseLoginDto>,
+                response: Response<ResponseLoginDto>,
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.message?.let { Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show(); }
+
+                    if (!isFinishing) {
+                        mintent.putExtra("name",response.body()?.data?.name)
+                        mintent.putExtra("id",response.body()?.data?.id)
+                        mintent.putExtra("skill",response.body()?.data?.skill)
+                        startActivity(mintent)
+                    }
+                } else {
+                    response.body()?.message?.let { Toast.makeText(getApplicationContext(), "서버통신 실패(40X)", Toast.LENGTH_SHORT).show(); }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
+                t.message?.let { Toast.makeText(getApplicationContext(), "서버통신 실패(응답값 X)", Toast.LENGTH_SHORT).show(); }
+            }
+        })
     }
 }
