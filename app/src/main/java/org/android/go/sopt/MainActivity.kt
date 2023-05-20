@@ -2,9 +2,7 @@ package org.android.go.sopt
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
 import org.android.go.sopt.Gallery.GalleryFragment
 import org.android.go.sopt.Home.HomeFragment
 import org.android.go.sopt.Search.SearchFragment

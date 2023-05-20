@@ -4,19 +4,22 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.android.go.sopt.data.ItemData
+import com.bumptech.glide.Glide
+import org.android.go.sopt.data.ResponseListUsersDto
 import org.android.go.sopt.databinding.LayoutItemBinding
 
 class ItemAdapter(context: Context): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var itemList: List<ItemData> = emptyList()
+    private var userList: List<ResponseListUsersDto.UserData> = emptyList()
 
     class ItemViewHolder(private val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ItemData) {
-            binding.ivItem.setImageDrawable(binding.root.context.getDrawable(data.image))
-            binding.tvName.text = data.name
-            binding.tvTeam.text = data.team
+        fun onBind(data: ResponseListUsersDto.UserData) {
+            with(binding) {
+                Glide.with(binding.root.context).load(data.avatar).into(binding.ivItem)
+                binding.tvName.text = data.first_name
+                binding.tvEmail.text = data.email
+            }
         }
     }
 
@@ -26,13 +29,13 @@ class ItemAdapter(context: Context): RecyclerView.Adapter<ItemAdapter.ItemViewHo
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.onBind(itemList[position])
+        holder.onBind(userList[position])
     }
 
-    override fun getItemCount() = itemList.size
+    override fun getItemCount() = userList.size
 
-    fun setItemList(itemList: List<ItemData>){
-        this.itemList = itemList.toList()
+    fun setItemList(userList: List<ResponseListUsersDto.UserData>){
+        this.userList = userList.toList()
         notifyDataSetChanged()
     }
 }
