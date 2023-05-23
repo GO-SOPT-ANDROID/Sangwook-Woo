@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
 import org.android.go.sopt.MainActivity
 import org.android.go.sopt.ServicePool
 import org.android.go.sopt.data.RequestLoginDto
@@ -14,15 +16,13 @@ import retrofit2.Call
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
-
+    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater)}
+    private val viewModel by viewModels<LoginViewModel>()
     var name: String? = null
     var id: String? = null
     var skill: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnLoginpageSignup.setOnClickListener {
@@ -32,8 +32,20 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.btnLoginpageLogin.setOnClickListener {
-            val mintent = Intent(this, MainActivity::class.java)
-            completeLogin(mintent)
+            viewModel.logIn(
+                binding.etLoginpageLogin.text.toString(),
+                binding.etLoginpagePassword.text.toString()
+            )
+        }
+
+        viewModel.loginResult.observe(this) { loginResult ->
+            startActivity(
+                Intent(
+                    this@LoginActivity,
+                    MainActivity::class.java
+                )
+            )
+            Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show()
         }
     }
     private val loginService = ServicePool.loginService
