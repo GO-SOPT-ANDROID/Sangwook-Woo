@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import org.android.go.sopt.service.GetListUsersService
+import org.android.go.sopt.service.ImageService
 import org.android.go.sopt.service.LoginService
 import org.android.go.sopt.service.SignUpService
 import retrofit2.Retrofit
@@ -33,5 +34,6 @@ object ReqresApi {
 object ServicePool {
     val signUpService = ApiFactory.create<SignUpService>()
     val loginService = ApiFactory.create<LoginService>()
+    val imageService = ApiFactory.create<ImageService>()
     val GetListUsersService = ReqresApi.create<GetListUsersService>()
 }
