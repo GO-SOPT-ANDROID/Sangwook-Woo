@@ -2,6 +2,7 @@ package org.android.go.sopt.Home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,10 +40,16 @@ class HomeFragment : Fragment() {
         val adapter3 = ConcatAdapter(adapter2,adapter1)
 
         viewModel.completeGetUsers()
-        adapter1.submitList(viewModel.userListResult.value?.data)
+        viewModel.userListResult.observe(viewLifecycleOwner) {userListResult->
+            if(userListResult.data != null){
+                adapter1.submitList(userListResult.data)
+            }else{
+                Log.e("test","empty userList")
+            }
+
+        }
         adapter2.setHeaderText("유저 정보")
         binding.rvHome.adapter = adapter3
-
     }
 
     override fun onDestroyView() {

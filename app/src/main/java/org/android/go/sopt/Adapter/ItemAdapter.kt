@@ -36,6 +36,6 @@ class ItemAdapter(context: Context): ListAdapter<ResponseListUsersDto.UserData, 
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.onBind(userList[position])
+        holder.onBind(getItem(position))
     }
 }
