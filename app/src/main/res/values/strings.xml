@@ -12,7 +12,7 @@
     <string name="putpassword">비밀번호를 입력하세요.</string>
     <string name="putid">아이디를 입력하세요.</string>
     <string name="putname">이름을 입력하세요</string>
-    <string name="putspecial">특기를 입력하세요.</string>
+    <string name="putskill">특기를 입력하세요.</string>
     <string name="special"><b>특기</b></string>
     <string name="name"><b>이름</b></string>
     <string name="complete">완료</string>
