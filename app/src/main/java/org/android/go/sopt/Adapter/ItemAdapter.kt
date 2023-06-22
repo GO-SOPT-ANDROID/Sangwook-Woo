@@ -3,12 +3,19 @@ package org.android.go.sopt.Adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.android.go.sopt.data.ResponseListUsersDto
 import org.android.go.sopt.databinding.LayoutItemBinding
+import org.android.go.sopt.util.ItemDiffCallback
 
-class ItemAdapter(context: Context): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(context: Context): ListAdapter<ResponseListUsersDto.UserData, ItemAdapter.ItemViewHolder>(
+    ItemDiffCallback<ResponseListUsersDto.UserData>(
+        onItemsTheSame = { old, new -> old.id == new.id },
+        onContentsTheSame = { old, new -> old == new }
+    )
+) {
     private val inflater by lazy { LayoutInflater.from(context) }
     private var userList: List<ResponseListUsersDto.UserData> = emptyList()
 
@@ -29,13 +36,6 @@ class ItemAdapter(context: Context): RecyclerView.Adapter<ItemAdapter.ItemViewHo
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.onBind(userList[position])
-    }
-
-    override fun getItemCount() = userList.size
-
-    fun setItemList(userList: List<ResponseListUsersDto.UserData>){
-        this.userList = userList.toList()
-        notifyDataSetChanged()
+        holder.onBind(getItem(position))
     }
 }
