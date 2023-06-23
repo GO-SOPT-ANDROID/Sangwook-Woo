@@ -1,5 +1,7 @@
 package org.android.go.sopt.Gallery
 
+import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -44,6 +46,11 @@ class GalleryFragment : Fragment() {
         }
 
         binding.rvGallery.adapter = adapter
+
+        binding.btnAddMusic.setOnClickListener {
+            val intent = Intent(context,ImagePickerActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
